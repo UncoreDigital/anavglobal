@@ -1,0 +1,19 @@
+# Set project_id to your Supabase project ref before using the CLI.
+project_id = "<PROJECT_REF>"
+
+# ---------------------------------------------------------------------------
+# lead-notification is called by a Postgres trigger, not by a signed-in user.
+#
+# Supabase's current API key format (`sb_publishable_…` / `sb_secret_…`) is not
+# accepted in an `Authorization: Bearer` header — the gateway rejects the
+# request before the function boots, so a failing call leaves NO entry in the
+# invocation log and looks like the trigger never fired.
+#
+# So the platform's JWT check is off and the function authenticates itself: it
+# requires an `x-webhook-secret` header matching the WEBHOOK_SECRET secret.
+#
+# Dashboard equivalent, if deploying by hand:
+#   Edge Functions → lead-notification → Settings → turn off "Verify JWT".
+# ---------------------------------------------------------------------------
+[functions.lead-notification]
+verify_jwt = false

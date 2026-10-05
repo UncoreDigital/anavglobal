@@ -1,0 +1,377 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   ANAV Global — Design System
+
+   Palette sampled pixel-by-pixel from the client's mark
+   (assets-src/brand/logo-master.png). The mark is a single left-to-right
+   sweep across an A and a V, with a light stroke drawn through both:
+
+     A, left leg — royal blue          #2C57E1  hsl(226 75% 53%)
+     A apex — deep teal-blue           #1F74C4  hsl(209 73% 45%)
+     A/V join — teal                   #0EA09F  hsl(180 84% 34%)
+     V, right arm — green              #03CE7F  hsl(157 97% 41%)
+     the light stroke — mint           #C9F3F1  hsl(177 64% 87%)
+     wordmark — navy                   #054698  hsl(213 94% 31%)
+
+   Roles:
+     * Royal blue is the primary: links, focus, active states. It is text-safe
+       on white as sampled (5.9:1), so it is used unmodified.
+     * Green is the accent and owns conversion. It is far too light for text on
+       white (2.1:1), so it is only ever a FILL, with a navy-deep label on top
+       (8.7:1). Green text on white uses --accent-dark (4.9:1).
+     * Mint is a surface colour — tinted section backgrounds and chips.
+     * Navy-deep is a darker cut of the wordmark's navy, for dark bands.
+
+   The motif is the mark's light stroke — a /\/ zigzag that reads as a rising
+   line on a chart. See components/brand/AvLine.tsx.
+
+   Ratios quoted below are measured WCAG contrast, not estimates.
+   ========================================================================== */
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 220 70% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 70% 11%;
+
+    --primary: 226 75% 53%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 213 94% 31%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 200 40% 96%;
+    --muted-foreground: 215 16% 40%;
+
+    /* Green — the accent. A fill, never text on white (2.1:1). navy-deep on it: 8.7:1. */
+    --accent: 157 97% 41%;
+    --accent-foreground: 220 70% 11%;
+
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 205 30% 89%;
+    --input: 205 30% 87%;
+    --ring: 226 75% 53%;
+
+    --radius: 0.75rem;
+
+    /*
+      Height of the chrome above the fold. Below md only the header bar counts;
+      from md up the utility strip is added. Keep in step with Header (h-[4.5rem])
+      and TopBar (h-10).
+    */
+    --header-h: 4.5rem;
+
+    /* ---- Brand tokens ---- */
+
+    /* Navy. --navy-light is the wordmark's own ink (8.8:1 on white). */
+    --navy-deep: 220 70% 11%;
+    --navy: 218 72% 17%;
+    --navy-light: 213 94% 31%;
+
+    /* Royal blue — the primary family. */
+    --brand: 226 75% 53%;
+    --brand-dark: 226 72% 44%;
+    /* On navy-deep: 6.6:1. The text-safe blue for dark bands. */
+    --brand-light: 224 92% 72%;
+    --brand-bright: 209 73% 45%;
+
+    /* Teal. --teal is the text-safe cut (5.3:1 on white); --teal-light is the mark's own. */
+    --teal-deep: 186 85% 22%;
+    --teal: 182 85% 26%;
+    --teal-light: 180 84% 34%;
+
+    /* Green — accent family. --accent-dark is text-safe on white (4.9:1). */
+    --accent-dark: 157 95% 26%;
+    /* On navy-deep: 11.6:1. */
+    --accent-light: 156 80% 58%;
+
+    /* Mint — the light stroke. */
+    --mint: 177 64% 87%;
+    --mint-light: 172 60% 96%;
+
+    --ink: 220 70% 11%;
+    --ink-muted: 215 16% 40%;
+
+    /* Slate — cool greys pulled toward the brand blue rather than neutral. */
+    --slate-50: 210 40% 98%;
+    --slate-100: 210 33% 95%;
+    --slate-200: 208 30% 89%;
+    --slate-400: 212 16% 62%;
+    --slate-600: 215 16% 40%;
+    --slate-800: 218 40% 20%;
+
+    /* Success states share the accent's hue so they never read as a third brand colour. */
+    --emerald: 157 95% 26%;
+    --emerald-light: 157 80% 36%;
+    --emerald-mint: 156 80% 58%;
+
+    /*
+      Gradients.
+
+      --gradient-brand is the mark's own sweep — blue, through teal, to green —
+      and belongs to large surfaces (hero glows, the CTA band, rules). It is
+      never used behind text without a navy wash on top: white on its green end
+      is only 2.1:1.
+    */
+    --gradient-brand: linear-gradient(100deg, hsl(226 75% 53%) 0%, hsl(209 73% 45%) 30%, hsl(180 84% 34%) 62%, hsl(157 97% 41%) 100%);
+    --gradient-navy: linear-gradient(135deg, hsl(220 70% 11%) 0%, hsl(218 72% 17%) 100%);
+    /* The CTA fill. Brighter on hover, not darker — the label is navy, so a darker fill closes the contrast gap. */
+    --gradient-accent-x: linear-gradient(100deg, hsl(157 90% 46%) 0%, hsl(157 97% 41%) 55%, hsl(165 92% 40%) 100%);
+    --gradient-accent-x-hover: linear-gradient(100deg, hsl(155 85% 54%) 0%, hsl(157 90% 49%) 55%, hsl(165 88% 47%) 100%);
+    --gradient-accent: linear-gradient(180deg, hsl(156 80% 58%) 0%, hsl(180 84% 34%) 100%);
+    /* Card hover edge — blue into green, the mark's own direction of travel. */
+    --gradient-edge: linear-gradient(130deg, hsl(226 75% 53%) 0%, hsl(180 84% 34%) 55%, hsl(157 97% 41%) 100%);
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      /* TopBar (2.5rem) + Header (5rem) */
+      --header-h: 7.5rem;
+    }
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  /* Lenis sets .lenis on <html>; native smooth scrolling fights it over anchor jumps. */
+  html.lenis {
+    scroll-behavior: auto;
+  }
+
+  body {
+    @apply bg-background font-sans text-ink antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display tracking-tight text-navy-deep;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand ring-offset-2 ring-offset-background;
+  }
+
+  ::selection {
+    @apply bg-accent/25 text-navy-deep;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Section rhythm. One utility so vertical spacing cannot drift page to page. */
+  .section {
+    @apply py-16 md:py-24 lg:py-28;
+  }
+  .section-tight {
+    @apply py-12 md:py-16 lg:py-20;
+  }
+
+  /* The eyebrow above section headings — the mark's sweep as a short rule. */
+  .eyebrow {
+    @apply inline-flex items-center gap-2.5 text-[11.5px] font-bold uppercase tracking-[0.18em] text-brand;
+  }
+  .eyebrow::before {
+    content: "";
+    @apply h-[3px] w-7 rounded-full;
+    background-image: var(--gradient-brand);
+  }
+  .eyebrow-on-dark {
+    @apply text-accent-light;
+  }
+
+  /*
+    Gradient text for the emphasised span in a heading. Needs an explicit colour
+    fallback: if background-clip is unsupported the text would otherwise inherit
+    transparent and vanish.
+  */
+  .text-gradient-brand {
+    color: hsl(var(--brand));
+  }
+  .text-gradient-on-dark {
+    color: hsl(var(--accent-light));
+  }
+
+  @supports (-webkit-background-clip: text) or (background-clip: text) {
+    /*
+      On white: every stop is text-safe — blue 6.6:1, teal 4.9:1, green-dark
+      5.2:1. The mark's own green is NOT used here; it would drop to 2.1:1.
+    */
+    .text-gradient-brand {
+      background: linear-gradient(100deg, hsl(226 75% 50%) 0%, hsl(196 85% 34%) 55%, hsl(157 95% 25%) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    /* On navy-deep: 7.2:1 into 11.3:1 into 11.6:1. */
+    .text-gradient-on-dark {
+      background: linear-gradient(100deg, hsl(224 92% 74%) 0%, hsl(180 70% 60%) 50%, hsl(156 80% 58%) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+
+  /*
+    Card with a gradient edge that resolves on hover. Painted as a masked
+    background rather than border-image so the radius is honoured everywhere.
+  */
+  .card-edge {
+    @apply relative rounded-2xl border border-border bg-white transition-[box-shadow,transform] duration-300;
+  }
+  .card-edge::before {
+    content: "";
+    background: var(--gradient-edge);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    @apply pointer-events-none absolute inset-0 rounded-[inherit] border border-transparent p-[1.5px] opacity-0 transition-opacity duration-300;
+  }
+  .card-edge:hover::before {
+    @apply opacity-100;
+  }
+
+  /* Icon plate — gradient-tinted square behind a lucide icon. */
+  .icon-plate {
+    @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-brand;
+    background: linear-gradient(135deg, hsl(var(--brand) / 0.12), hsl(var(--accent) / 0.14));
+  }
+
+  /* Long-form body copy rendered from the CMS. */
+  /*
+    overflow-wrap: anywhere — article bodies come from the CMS, and a pasted URL
+    or long unbroken string otherwise pushed the page up to 600px wide on a
+    phone (responsive audit, October 2026).
+  */
+  .prose-anav {
+    @apply text-[16px] leading-[1.8] text-ink-muted;
+    overflow-wrap: anywhere;
+  }
+  .prose-anav h2 {
+    @apply mb-3 mt-10 text-2xl font-bold text-navy-deep;
+  }
+  .prose-anav h3 {
+    @apply mb-2.5 mt-8 text-xl font-bold text-navy-deep;
+  }
+  .prose-anav p {
+    @apply mb-5;
+  }
+  .prose-anav ul {
+    @apply mb-5 space-y-2 pl-5;
+  }
+  .prose-anav ul > li {
+    @apply relative list-none;
+  }
+  .prose-anav ul > li::before {
+    content: "";
+    @apply absolute -left-4 top-[0.65em] h-1.5 w-1.5 rounded-full bg-accent;
+  }
+  .prose-anav ol {
+    @apply mb-5 list-decimal space-y-2 pl-5 marker:font-semibold marker:text-brand;
+  }
+  .prose-anav a {
+    @apply font-medium text-brand underline underline-offset-2 hover:text-brand-dark;
+  }
+  .prose-anav strong {
+    @apply font-semibold text-navy-deep;
+  }
+  .prose-anav img {
+    @apply my-6 rounded-xl;
+  }
+  .prose-anav blockquote {
+    @apply my-6 border-l-[3px] border-accent pl-5 italic text-navy;
+  }
+  .prose-anav code {
+    @apply rounded bg-slate-100 px-1.5 py-0.5 text-[0.9em] text-navy-deep;
+  }
+
+  /* Form controls, shared by the public forms and the admin. */
+  .field {
+    @apply h-12 w-full rounded-xl border border-input bg-white px-4 text-[14.5px] text-ink transition-colors placeholder:text-slate-400 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20;
+  }
+  .field-sm {
+    @apply h-10 w-full rounded-lg border border-input bg-white px-3 text-[13.5px] text-ink transition-colors placeholder:text-slate-400 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15;
+  }
+  .label {
+    @apply mb-2 block text-[13px] font-semibold text-navy-deep;
+  }
+}
+
+@layer utilities {
+  /* A hairline grid, for dark bands that would otherwise read as flat ink. */
+  .bg-grid {
+    background-image:
+      linear-gradient(hsl(0 0% 100% / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(0 0% 100% / 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  /* The same grid in ink, for light surfaces. */
+  .bg-grid-light {
+    background-image:
+      linear-gradient(hsl(var(--navy-deep) / 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--navy-deep) / 0.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  /* Marquee edge fade — keeps logo strips from colliding with the container. */
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  /* Fades a decorative element out toward the bottom. */
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent);
+    mask-image: linear-gradient(180deg, #000 55%, transparent);
+  }
+
+  .pause-on-hover:hover * {
+    animation-play-state: paused;
+  }
+}
+
+/*
+  iOS Safari zooms the page when a focused input, select or textarea has text
+  under 16px, and leaves it zoomed — the visitor ends up panning sideways
+  through the rest of the form. Below the `sm` breakpoint every form control
+  is held at 16px; from 640px up the designed sizes apply unchanged.
+  `!important` is deliberate: it has to beat the per-field text utilities.
+  (Responsive audit, October 2026.)
+*/
+@media (max-width: 639.98px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
