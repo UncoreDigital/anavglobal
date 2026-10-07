@@ -12,10 +12,12 @@ import { localeAlternates, REGIONS, rhref, type Region } from "@/lib/regions";
 export function pageMetadata(
   region: Region,
   base: string,
-  { title, description, availableIn = REGIONS, absoluteTitle = false }: {
+  { title, description, availableIn = REGIONS, paths, absoluteTitle = false }: {
     title: string;
     description: string;
     availableIn?: Region[];
+    /** Per-region path, when the counterpart page's slug differs from `base`. */
+    paths?: Partial<Record<Region, string>>;
     absoluteTitle?: boolean;
   }
 ): Metadata {
@@ -23,7 +25,7 @@ export function pageMetadata(
   return {
     title: absoluteTitle ? { absolute: t } : t,
     description,
-    alternates: localeAlternates(base, region, availableIn),
+    alternates: localeAlternates(base, region, availableIn, paths),
     openGraph: { url: rhref(region, base), locale: region === "uk" ? "en_GB" : "en_US", title: t, description },
   };
 }

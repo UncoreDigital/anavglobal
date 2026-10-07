@@ -9,8 +9,10 @@ import {
   software,
   type SoftwareTool,
 } from "@/lib/content";
+import { industries as usIndustries, type Industry } from "@/lib/industries-data";
 import type { Region } from "@/lib/regions";
 import { services as usServices, type Service } from "@/lib/services-data";
+import { ukIndustries } from "@/lib/uk-industries-data";
 import { ukServices } from "@/lib/uk-services-data";
 
 /**
@@ -68,9 +70,8 @@ export type RegionContent = {
   serviceInterests: string[];
   enquirerTypes: string[];
   footerBlurb: string;
-  /** Industries are US-only. */
-  showIndustries: boolean;
   services: Service[];
+  industries: Industry[];
 };
 
 const us: RegionContent = {
@@ -123,8 +124,8 @@ const us: RegionContent = {
   enquirerTypes: usEnquirerTypes,
   footerBlurb:
     "Your trusted partner for comprehensive accounting and bookkeeping services. Serving businesses across the USA, UK, and India.",
-  showIndustries: true,
   services: usServices,
+  industries: usIndustries,
 };
 
 const uk: RegionContent = {
@@ -272,19 +273,23 @@ const uk: RegionContent = {
   },
   software: software.filter((t) => ["Xero", "QuickBooks", "Sage"].includes(t.name)),
   forWho: {
-    cpa: { label: "For UK accounting practices", href: "/contact" },
-    business: { label: "For business owners", href: "/contact" },
+    cpa: { label: "For UK accounting practices", href: "/industries/accounting-practices" },
+    business: { label: "For business owners", href: "/industries/startups-smes" },
   },
   serviceInterests: [...ukServices.map((s) => s.title), "Other"],
   enquirerTypes: ["Accounting practice", "Business owner", "Other"],
   footerBlurb:
     "Outsourced bookkeeping, VAT, year-end accounts, self-assessment and payroll for UK accounting practices and businesses — with offices in the UK, USA and India.",
-  showIndustries: false,
   services: ukServices,
+  industries: ukIndustries,
 };
 
 export const regionContent: Record<Region, RegionContent> = { us, uk };
 
 export function getRegionService(region: Region, slug: string) {
   return regionContent[region].services.find((s) => s.slug === slug);
+}
+
+export function getRegionIndustry(region: Region, slug: string) {
+  return regionContent[region].industries.find((i) => i.slug === slug);
 }

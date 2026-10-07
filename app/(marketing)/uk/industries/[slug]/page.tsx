@@ -4,13 +4,13 @@ import IndustryDetailPage, { industryMetadata, industrySlugsFor } from "@/compon
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return industrySlugsFor("us");
+  return industrySlugsFor("uk");
 }
 
 export function generateMetadata({ params }: { params: { slug: string } }) {
-  return industryMetadata("us", params.slug);
+  return industryMetadata("uk", params.slug);
 }
 
 export default function Page({ params }: { params: { slug: string } }) {
-  return <IndustryDetailPage region="us" slug={params.slug} />;
+  return <IndustryDetailPage region="uk" slug={params.slug} />;
 }

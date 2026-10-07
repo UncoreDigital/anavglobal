@@ -1,5 +1,4 @@
 import { normaliseOrigin } from "@/lib/origin";
-import { industries } from "@/lib/industries-data";
 import { regionContent } from "@/lib/region-content";
 import { rhref, type Region } from "@/lib/regions";
 
@@ -178,8 +177,8 @@ export type NavItem = {
 /*
   Navigation renders from the same data files the pages do, so a service
   cannot exist without appearing in the menu, and cannot drift from the page
-  that describes it. Each country site gets its own menu: the UK site lists UK
-  services and has no Industries section (lib/region-content.ts).
+  that describes it. Each country site gets its own menu: the UK site lists its
+  own services and industries (lib/region-content.ts).
 */
 export function navFor(region: Region): NavItem[] {
   const content = regionContent[region];
@@ -190,15 +189,11 @@ export function navFor(region: Region): NavItem[] {
       href: r("/services"),
       dropdown: content.services.map((s) => ({ name: s.title, href: r(`/services/${s.slug}`), blurb: s.summary })),
     },
-    ...(content.showIndustries
-      ? [
-          {
-            name: "Industries",
-            href: r("/industries"),
-            dropdown: industries.map((i) => ({ name: i.name, href: r(`/industries/${i.slug}`), blurb: i.description })),
-          },
-        ]
-      : []),
+    {
+      name: "Industries",
+      href: r("/industries"),
+      dropdown: content.industries.map((i) => ({ name: i.name, href: r(`/industries/${i.slug}`), blurb: i.description })),
+    },
     {
       name: "Company",
       href: r("/about"),
@@ -226,9 +221,7 @@ export function footerNavFor(region: Region) {
       heading: region === "uk" ? "UK Services" : "Services",
       links: content.services.map((s) => ({ name: s.title, href: r(`/services/${s.slug}`) })),
     },
-    ...(content.showIndustries
-      ? [{ heading: "Industries", links: industries.map((i) => ({ name: i.name, href: r(`/industries/${i.slug}`) })) }]
-      : []),
+    { heading: "Industries", links: content.industries.map((i) => ({ name: i.name, href: r(`/industries/${i.slug}`) })) },
     {
       heading: "Company",
       links: [

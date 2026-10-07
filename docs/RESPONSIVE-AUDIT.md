@@ -606,3 +606,13 @@ The USA / UK switcher added the UK site (`/uk/…`) and touched the shared chrom
 | Switcher behaviour: default USA; page-to-page mapping both ways; Escape closes and returns focus; back button; mobile segmented control at 320/390; UK contact form defaults | **all pass** |
 
 Also fixed while building it: the logo marquee used an odd number of copies (3), so its `-50%` loop restarted mid-copy and visibly jumped; it now always uses an even number, sized so half the track covers a 2000 px screen.
+
+# ADDENDUM — UK INDUSTRIES (7 October 2026)
+
+The UK site gained the Industries section: `/uk/industries` and six UK industry pages (CPA Firms is "Accounting Practices" at `/uk/industries/accounting-practices`), the Industries menu in the UK header, mobile menu and footer, and the industries grid on the UK homepage. Re-verified against a clean production build of all 60 pages:
+
+| Check | Result |
+|---|---|
+| 12 routes (UK home, UK industries index + 6 pages, a UK service page, UK about, US CPA firms) × 17 viewports = 204 runs | **0** page overflow, **0** clipped text, **0** distorted/broken images, **0** header collisions, **0** console errors; remaining spill/target notes identical to the earlier accepted baseline |
+| UK header dropdown (1440) and mobile menu (390) | all six UK industries listed, links stay on the UK site, no horizontal overflow in the menu |
+| Country switch and SEO | CPA firms ↔ accounting practices both ways; every industry page declares its counterpart via hreflang; both sites' industries in the sitemap; wrong-site slugs 404 |

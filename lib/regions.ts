@@ -7,9 +7,9 @@
  * page on the other site when there is one, and to that site's home when
  * there is not (see `switchHref`).
  *
- * What differs per region: the services and their pages, the homepage copy,
- * engagement models, FAQs, software list, the primary phone/office, the blog
- * posts shown, page titles and hreflang. What is shared: brand, team, about,
+ * What differs per region: the services and their pages, the industry pages,
+ * the homepage copy, engagement models, FAQs, software list, the primary
+ * phone/office, the blog posts shown, page titles and hreflang. What is shared: brand, team, about,
  * offices, admin. Content for each region lives in lib/region-content.ts.
  *
  * There is deliberately no automatic geo-IP redirect. The client asked for US
@@ -81,6 +81,7 @@ export function splitPath(pathname: string): { region: Region; base: string } {
 const SHARED_PATHS = [
   "/",
   "/services",
+  "/industries",
   "/about",
   "/team",
   "/how-we-work",
@@ -109,6 +110,20 @@ const SERVICE_EQUIVALENTS: Record<string, string> = {
   "uk:year-end-accounts-corporation-tax": "tax-preparation-filing",
 };
 
+/**
+ * Industries are the same six on both sites, under the same slugs, except the
+ * CPA-firms page, which the UK site calls accounting practices.
+ */
+const INDUSTRY_EQUIVALENTS: Record<string, string> = {
+  "us:cpa-firms": "accounting-practices",
+  "uk:accounting-practices": "cpa-firms",
+};
+
+/** The slug of an industry page's counterpart on the other site. */
+export function industryCounterpart(slug: string, from: Region): string {
+  return INDUSTRY_EQUIVALENTS[`${from}:${slug}`] ?? slug;
+}
+
 /** Where the country dropdown should take the visitor from `pathname`. */
 export function switchHref(pathname: string, target: Region): string {
   const { region: from, base } = splitPath(pathname);
@@ -125,19 +140,26 @@ export function switchHref(pathname: string, target: Region): string {
   /* Blog posts can be region-specific, so land on the other site's index. */
   if (base.startsWith("/blog/")) return rhref(target, "/blog");
 
-  /* Industries are US-only; their nearest UK equivalent is the services index. */
-  if (base.startsWith("/industries")) return rhref(target, "/services");
+  const industry = base.match(/^\/industries\/([^/]+)$/);
+  if (industry) return rhref(target, `/industries/${industryCounterpart(industry[1], from)}`);
 
   return rhref(target, "/");
 }
 
 /**
  * hreflang alternates for a page available on both sites (or one).
- * `x-default` points at the US page, matching "default US".
+ * `x-default` points at the US page, matching "default US". `paths` gives a
+ * region its own path when the counterpart page has a different slug.
  */
-export function localeAlternates(base: string, region: Region, availableIn: Region[] = REGIONS) {
+export function localeAlternates(
+  base: string,
+  region: Region,
+  availableIn: Region[] = REGIONS,
+  paths: Partial<Record<Region, string>> = {}
+) {
+  const pathIn = (r: Region) => rhref(r, paths[r] ?? base);
   const languages: Record<string, string> = {};
-  for (const r of availableIn) languages[regions[r].hreflang] = rhref(r, base);
-  if (availableIn.includes("us")) languages["x-default"] = rhref("us", base);
-  return { canonical: rhref(region, base), languages };
+  for (const r of availableIn) languages[regions[r].hreflang] = pathIn(r);
+  if (availableIn.includes("us")) languages["x-default"] = pathIn("us");
+  return { canonical: pathIn(region), languages };
 }

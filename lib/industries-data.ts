@@ -1,5 +1,6 @@
 /**
- * The six industries — source of truth.
+ * The six industries, for the US site — source of truth. The UK site's
+ * adapted versions are in uk-industries-data.ts.
  *
  * Provenance:
  *   name, description, image  — from the Emergent build (images are the same
@@ -14,13 +15,15 @@ export type Industry = {
   description: string;
   icon: string;
   image: string;
+  /** Page title, when "Accounting for {name}" reads badly. */
+  metaTitle?: string;
   /** NEW */
   intro: string;
   /** NEW */
   challenges: string[];
   /** NEW */
   help: string[];
-  /** Slugs from services-data.ts. */
+  /** Service slugs from the same site (services-data.ts or uk-services-data.ts). */
   services: string[];
 };
 
@@ -160,9 +163,3 @@ export const industries: Industry[] = [
     services: ["bookkeeping-accounting", "management-accounts", "tax-preparation-filing"],
   },
 ];
-
-export const industrySlugs = industries.map((i) => i.slug);
-
-export function getIndustry(slug: string) {
-  return industries.find((i) => i.slug === slug);
-}

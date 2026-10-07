@@ -87,10 +87,10 @@ Modelled on the flag dropdown at [unisonglobus.com](https://unisonglobus.com/): 
 | URL | `/` — every existing URL unchanged | `/uk/…` |
 | Services | the six from anavglobal.com ([`lib/services-data.ts`](lib/services-data.ts)) | four UK lines ([`lib/uk-services-data.ts`](lib/uk-services-data.ts)) |
 | Home copy, engagement models, FAQs, CTA, software | [`lib/content.ts`](lib/content.ts) | [`lib/region-content.ts`](lib/region-content.ts) |
-| Industries | yes | no (US-only content) |
+| Industries | the six from anavglobal.com ([`lib/industries-data.ts`](lib/industries-data.ts)) | the same six, UK wording and UK services ([`lib/uk-industries-data.ts`](lib/uk-industries-data.ts)); CPA Firms is **Accounting Practices** |
 | Phone | US numbers | `phone_uk` from Admin → Site Settings (WhatsApp shown until set) |
 
-- **The switcher** is in the top bar (md and up), at the top of the mobile menu, and in the footer. Choosing a country goes to the *same page* on the other site where there is one (`/about` ↔ `/uk/about`, US payroll ↔ UK payroll & CIS) and the nearest sensible page where there is not — mapping in [`lib/regions.ts`](lib/regions.ts) → `switchHref`.
+- **The switcher** is in the top bar (md and up), at the top of the mobile menu, and in the footer. Choosing a country goes to the *same page* on the other site where there is one (`/about` ↔ `/uk/about`, US payroll ↔ UK payroll & CIS, CPA firms ↔ accounting practices) and the nearest sensible page where there is not — mapping in [`lib/regions.ts`](lib/regions.ts) → `switchHref`.
 - **No automatic geo-IP redirect**: the brief was "default US", and IP redirects misroute travellers, VPN users and crawlers. (Unison loads one; it currently 404s.) If wanted later, it belongs in `middleware.ts` using Vercel's `x-vercel-ip-country` header — and only as a one-time suggestion, never a forced redirect.
 - **SEO**: every page on both sites declares `hreflang` en-US / en-GB / x-default, UK titles carry "UK", and the sitemap lists both sites with alternates.
 - **Admin**: Leads show which site an enquiry came from (badge, filter, CSV column, and "UK" in the email subject). Insights posts have a **Show on** setting — both sites, US only or UK only.
@@ -103,7 +103,7 @@ Modelled on the flag dropdown at [unisonglobus.com](https://unisonglobus.com/): 
 | Content | Source of truth |
 |---|---|
 | The six services | [`lib/services-data.ts`](lib/services-data.ts) |
-| The six industries | [`lib/industries-data.ts`](lib/industries-data.ts) |
+| The six industries | [`lib/industries-data.ts`](lib/industries-data.ts) (UK: [`lib/uk-industries-data.ts`](lib/uk-industries-data.ts)) |
 | Hero, why-us, process, values, certifications, FAQs, engagement models, security | [`lib/content.ts`](lib/content.ts) |
 | Brand, offices, navigation, feature flags | [`lib/site.ts`](lib/site.ts) |
 | Figures, contact details, social links | Supabase `site_settings` (Admin → Site Settings) |
@@ -126,7 +126,7 @@ Nav, footer, sitemap and pages all render from the data files, so a service cann
 6. **Legal pages** are drafts pending legal review and say so on the page.
 7. **The three articles** are drafts with fresh bodies (the old site had titles only, with bylines that are not ANAV staff). "Tax Planning Strategies for 2025" became a year-agnostic title.
 8. **Claims kept from the old site** — "24/7 support", "decade+ of experience", "CPAs, EAs" on the team, "lower than hiring individual bookkeepers" — are the client's own and should be true.
-9. **UK site** — confirm ANAV offers all four UK services as described, confirm the UK engagement models and their "Each model includes" list (defined SLAs, weekly reporting, account manager — these mirror POS Accounts' page and must be true of ANAV), add a **UK phone number** in Admin → Site Settings, and confirm the team is happy adapting POS Accounts' service structure.
+9. **UK site** — confirm ANAV offers all four UK services as described, review the UK wording of the six industry pages, confirm the UK engagement models and their "Each model includes" list (defined SLAs, weekly reporting, account manager — these mirror POS Accounts' page and must be true of ANAV), add a **UK phone number** in Admin → Site Settings, and confirm the team is happy adapting POS Accounts' service structure.
 10. **Vendor logos** (QuickBooks, Xero, Sage, Bill.com, ADP, Paychex, Gusto) are third-party trademarks, shown to identify software the team works in.
 
 ---

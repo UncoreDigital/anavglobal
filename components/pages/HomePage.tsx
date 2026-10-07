@@ -31,7 +31,6 @@ export function homeMetadata(region: Region) {
  * visitor is answering:
  *   what is this → is it for me → what do they do → can I trust them →
  *   how would it work → who are they → what do others say → let's talk.
- * The UK site has no Industries section (US-only content).
  */
 export default async function HomePage({ region }: { region: Region }) {
   const content = regionContent[region];
@@ -52,7 +51,7 @@ export default async function HomePage({ region }: { region: Region }) {
       <WhyUs settings={settings} />
       <Process />
       <EngagementModels region={region} />
-      {content.showIndustries && <IndustriesGrid />}
+      <IndustriesGrid region={region} />
       <GlobalPresence region={region} />
       <TeamSection members={team} variant="teaser" className="bg-white" teamHref={rhref(region, "/team")} />
       <Testimonials items={testimonials} />

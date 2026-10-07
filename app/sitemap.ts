@@ -1,8 +1,7 @@
 import type { MetadataRoute } from "next";
-import { industrySlugs } from "@/lib/industries-data";
 import { getPosts, visibleIn } from "@/lib/posts";
 import { regionContent } from "@/lib/region-content";
-import { regions, rhref, type Region } from "@/lib/regions";
+import { industryCounterpart, regions, rhref, type Region } from "@/lib/regions";
 import { features, site } from "@/lib/site";
 
 /**
@@ -27,6 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const shared: { path: string; priority: number; freq: "weekly" | "monthly" | "yearly" }[] = [
     { path: "/", priority: 1, freq: "weekly" },
     { path: "/services", priority: 0.9, freq: "monthly" },
+    { path: "/industries", priority: 0.8, freq: "monthly" },
     { path: "/about", priority: 0.8, freq: "monthly" },
     { path: "/team", priority: 0.7, freq: "monthly" },
     { path: "/how-we-work", priority: 0.7, freq: "monthly" },
@@ -57,12 +57,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.85,
       });
     }
-  }
-
-  /* Industries are US-only. */
-  routes.push({ url: abs("/industries"), lastModified: now, changeFrequency: "monthly", priority: 0.8 });
-  for (const slug of industrySlugs) {
-    routes.push({ url: abs(`/industries/${slug}`), lastModified: now, changeFrequency: "monthly", priority: 0.75 });
+    /* Every industry exists on both sites; only CPA firms ↔ accounting practices changes slug. */
+    const other: Region = region === "us" ? "uk" : "us";
+    for (const { slug } of regionContent[region].industries) {
+      routes.push({
+        url: abs(rhref(region, `/industries/${slug}`)),
+        lastModified: now,
+        changeFrequency: "monthly",
+        priority: 0.75,
+        alternates: {
+          languages: {
+            [regions[region].hreflang]: abs(rhref(region, `/industries/${slug}`)),
+            [regions[other].hreflang]: abs(rhref(other, `/industries/${industryCounterpart(slug, region)}`)),
+          },
+        },
+      });
+    }
   }
 
   if (features.insights) {

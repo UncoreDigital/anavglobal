@@ -4,18 +4,22 @@ import { ArrowUpRight } from "lucide-react";
 import { RevealGroup, RevealItem } from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import { getIcon } from "@/lib/icons";
-import { industries } from "@/lib/industries-data";
+import { regionContent } from "@/lib/region-content";
+import { rhref, type Region } from "@/lib/regions";
 
 /** "Industries We Serve / Every Industry" — VERBATIM headings, photo cards. */
 export default function IndustriesGrid({
+  region,
   heading = true,
   exclude,
   className = "section bg-white",
 }: {
+  region: Region;
   heading?: boolean;
   exclude?: string;
   className?: string;
 }) {
+  const { industries } = regionContent[region];
   const list = exclude ? industries.filter((i) => i.slug !== exclude) : industries;
 
   return (
@@ -37,7 +41,7 @@ export default function IndustriesGrid({
             return (
               <RevealItem key={industry.slug}>
                 <Link
-                  href={`/industries/${industry.slug}`}
+                  href={rhref(region, `/industries/${industry.slug}`)}
                   className="group relative block aspect-[4/3] overflow-hidden rounded-2xl bg-navy-deep shadow-card transition-shadow hover:shadow-lift"
                 >
                   <Image
