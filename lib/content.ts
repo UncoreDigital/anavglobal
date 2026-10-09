@@ -216,7 +216,13 @@ export const industryExpertise = [
   third-party trademarks; Expensify has no local asset and renders as a
   typeset wordmark in an identical tile.
 */
-export type SoftwareTool = { name: string; logo?: string };
+/**
+ * `logo` is the vendor's own artwork (public/assets/software, sources in
+ * assets-src/software). Products sold under a parent brand with no logo of
+ * their own — CCH Axcess, UltraTax CS — show the parent's symbol (`mark`)
+ * beside the product name instead.
+ */
+export type SoftwareTool = { name: string; logo?: string; mark?: string };
 
 export const software: SoftwareTool[] = [
   { name: "QuickBooks", logo: "/assets/software/quickbooks.webp" },
@@ -228,6 +234,27 @@ export const software: SoftwareTool[] = [
   { name: "Paychex", logo: "/assets/software/paychex.webp" },
   { name: "Gusto", logo: "/assets/software/gusto.webp" },
 ];
+
+/* US tax software (client change list, October 2026) — on the US homepage and, alone, on the US tax service page. */
+export const taxSoftware: SoftwareTool[] = [
+  { name: "Drake", logo: "/assets/software/drake.webp" },
+  { name: "CCH Axcess", mark: "/assets/software/wk-mark.webp" },
+  { name: "Lacerte", logo: "/assets/software/lacerte.webp" },
+  { name: "ProConnect", logo: "/assets/software/proconnect.webp" },
+  { name: "TurboTax", logo: "/assets/software/turbotax.webp" },
+  { name: "UltraTax CS", mark: "/assets/software/tr-mark.webp" },
+];
+
+/* UK tax and payroll software (client change list, UK column) — on the UK homepage. Taxfiler is now part of IRIS and has no current logo of its own. */
+export const ukTaxSoftware: SoftwareTool[] = [
+  { name: "CCH", mark: "/assets/software/wk-mark.webp" },
+  { name: "TaxCalc", logo: "/assets/software/taxcalc.webp" },
+  { name: "Taxfiler" },
+  { name: "BrightPay", logo: "/assets/software/brightpay.webp" },
+];
+
+/** Every tool, for looking a service's `tools` names up. */
+export const allSoftware: SoftwareTool[] = [...software, ...taxSoftware, ...ukTaxSoftware];
 
 /*
   NEW — security. Kept to what follows directly from the delivery model the old

@@ -123,16 +123,20 @@ function PersonCard({ member, large = false }: { member: PublicTeamMember; large
         <p className="mt-1 text-[13px] font-semibold text-brand">{member.role}</p>
         {large && member.bio && <p className="mt-3 flex-1 text-[14px] leading-[1.7] text-ink-muted">{member.bio}</p>}
         {!large && member.bio && <p className="mt-2.5 text-[13px] leading-[1.65] text-ink-muted">{member.bio}</p>}
+        {/* Pinned to the card's foot so the icons line up across a row whatever the bio length. */}
         {member.linkedin_url && (
-          <a
-            href={member.linkedin_url}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={`${member.name} on LinkedIn`}
-            className="mt-4 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border text-ink-muted transition-colors hover:border-brand hover:text-brand"
-          >
-            <Linkedin className="h-4 w-4" aria-hidden="true" />
-          </a>
+          <div className="mt-auto pt-4">
+            <a
+              href={member.linkedin_url}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${member.name} on LinkedIn`}
+              className="inline-flex h-10 items-center gap-2 rounded-lg border border-border px-3 text-[13px] font-semibold text-ink-muted transition-colors hover:border-brand hover:text-brand"
+            >
+              <Linkedin className="h-4 w-4" aria-hidden="true" />
+              LinkedIn
+            </a>
+          </div>
         )}
       </div>
     </article>

@@ -41,6 +41,13 @@ const principles = [
   },
 ];
 
+/* The UK site promises five working days instead (client change list, October 2026). */
+const ukTurnaround = {
+  title: "5 working days turnaround",
+  body: "Work is turned around within five working days of receiving the last piece of information we need.",
+  Icon: Clock,
+};
+
 export default async function HowWeWorkPage({ region }: { region: Region }) {
   const content = regionContent[region];
   const contact = contactFrom(await getSettings(), region);
@@ -59,7 +66,7 @@ export default async function HowWeWorkPage({ region }: { region: Region }) {
       <section className="section-tight bg-white">
         <div className="container">
           <RevealGroup className="grid gap-5 md:grid-cols-3">
-            {principles.map(({ title, body, Icon }) => (
+            {(region === "uk" ? principles.map((p) => (p.Icon === Clock ? ukTurnaround : p)) : principles).map(({ title, body, Icon }) => (
               <RevealItem key={title} className="card-edge flex gap-5 p-7 hover:shadow-card">
                 <span className="icon-plate">
                   <Icon className="h-5 w-5" aria-hidden="true" />

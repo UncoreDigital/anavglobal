@@ -42,6 +42,8 @@ The site runs without Supabase: the contact form returns a "not configured" mess
    - [`0002_seed_insights.sql`](supabase/migrations/0002_seed_insights.sql) — three articles as **drafts**
    - [`0003_lead_notification.sql`](supabase/migrations/0003_lead_notification.sql) — new-lead email (replace `<PROJECT_REF>` first; prerequisites are in the file header)
    - [`0004_regions.sql`](supabase/migrations/0004_regions.sql) — US / UK country sites: lead site, post "Show on", UK phone setting. The site works before this is run (forms retry without the column; posts show on both sites), so it can go in later.
+   - [`0005_client_changes.sql`](supabase/migrations/0005_client_changes.sql) — client change list (October 2026): Saturday office hours → Closed, Niket Bhatt's LinkedIn link. Never overwrites a value already edited in the admin.
+   - [`0006_seed_blog_tax.sql`](supabase/migrations/0006_seed_blog_tax.sql), [`0007_seed_blog_business.sql`](supabase/migrations/0007_seed_blog_business.sql), [`0008_seed_blog_bookkeeping.sql`](supabase/migrations/0008_seed_blog_bookkeeping.sql) — the client's 44 blog articles (U.S. tax for CPA firms and individuals, small business tax, tax planning, bookkeeping, industries), as **drafts** on the U.S. site. 0008's header has a one-statement "publish all" for after review.
 3. **Authentication → Users → Add user** for each admin. There is no public sign-up.
 4. Sign in at `/admin/login`.
 
@@ -87,7 +89,7 @@ Modelled on the flag dropdown at [unisonglobus.com](https://unisonglobus.com/): 
 | URL | `/` — every existing URL unchanged | `/uk/…` |
 | Services | the six from anavglobal.com ([`lib/services-data.ts`](lib/services-data.ts)) | four UK lines ([`lib/uk-services-data.ts`](lib/uk-services-data.ts)) |
 | Home copy, engagement models, FAQs, CTA, software | [`lib/content.ts`](lib/content.ts) | [`lib/region-content.ts`](lib/region-content.ts) |
-| Industries | the six from anavglobal.com ([`lib/industries-data.ts`](lib/industries-data.ts)) | the same six, UK wording and UK services ([`lib/uk-industries-data.ts`](lib/uk-industries-data.ts)); CPA Firms is **Accounting Practices** |
+| Industries | 17: the six from anavglobal.com plus 11 the client added in October 2026 — hotels, convenience stores, cannabis, construction, rental property, trusts & exempt entities, law firms, medical, wholesale, drop shipping, bullion & jewelry ([`lib/industries-data.ts`](lib/industries-data.ts)) | the same six, UK wording and UK services ([`lib/uk-industries-data.ts`](lib/uk-industries-data.ts)); CPA Firms is **Accounting Practices** |
 | Phone | US numbers | `phone_uk` from Admin → Site Settings (WhatsApp shown until set) |
 
 - **The switcher** is in the top bar (md and up), at the top of the mobile menu, and in the footer. Choosing a country goes to the *same page* on the other site where there is one (`/about` ↔ `/uk/about`, US payroll ↔ UK payroll & CIS, CPA firms ↔ accounting practices) and the nearest sensible page where there is not — mapping in [`lib/regions.ts`](lib/regions.ts) → `switchHref`.
@@ -103,7 +105,7 @@ Modelled on the flag dropdown at [unisonglobus.com](https://unisonglobus.com/): 
 | Content | Source of truth |
 |---|---|
 | The six services | [`lib/services-data.ts`](lib/services-data.ts) |
-| The six industries | [`lib/industries-data.ts`](lib/industries-data.ts) (UK: [`lib/uk-industries-data.ts`](lib/uk-industries-data.ts)) |
+| The industries | [`lib/industries-data.ts`](lib/industries-data.ts) (UK: [`lib/uk-industries-data.ts`](lib/uk-industries-data.ts)) |
 | Hero, why-us, process, values, certifications, FAQs, engagement models, security | [`lib/content.ts`](lib/content.ts) |
 | Brand, offices, navigation, feature flags | [`lib/site.ts`](lib/site.ts) |
 | Figures, contact details, social links | Supabase `site_settings` (Admin → Site Settings) |
@@ -127,7 +129,8 @@ Nav, footer, sitemap and pages all render from the data files, so a service cann
 7. **The three articles** are drafts with fresh bodies (the old site had titles only, with bylines that are not ANAV staff). "Tax Planning Strategies for 2025" became a year-agnostic title.
 8. **Claims kept from the old site** — "24/7 support", "decade+ of experience", "CPAs, EAs" on the team, "lower than hiring individual bookkeepers" — are the client's own and should be true.
 9. **UK site** — confirm ANAV offers all four UK services as described, review the UK wording of the six industry pages, confirm the UK engagement models and their "Each model includes" list (defined SLAs, weekly reporting, account manager — these mirror POS Accounts' page and must be true of ANAV), add a **UK phone number** in Admin → Site Settings, and confirm the team is happy adapting POS Accounts' service structure.
-10. **Vendor logos** (QuickBooks, Xero, Sage, Bill.com, ADP, Paychex, Gusto) are third-party trademarks, shown to identify software the team works in.
+10. **Vendor logos** (QuickBooks, Xero, Sage, Bill.com, ADP, Paychex, Gusto; tax software Drake, Lacerte, ProConnect, TurboTax, TaxCalc, BrightPay; the Wolters Kluwer and Thomson Reuters symbols beside CCH and UltraTax CS) are third-party trademarks, shown to identify software the team works in. Sources: `assets-src/software/`.
+11. **Client change list, October 2026** — tracked in the client's sheet (status copy in `client-changes/`, not committed). Still open: **LinkedIn links** for six team members (Admin → Team), the **USA tax FAQs** the client is sending (for the Tax Preparation & Filing page), and confirmation that WhatsApp support is still "24/7". To review before publishing: the **44 blog drafts**, the **11 new industry pages** and the **tax forms list** on the US tax service page.
 
 ---
 
@@ -141,7 +144,7 @@ Nav, footer, sitemap and pages all render from the data files, so a service cann
 
 ## Images
 
-Team headshots are the client's own (from the old site), cropped 4:5 top-anchored and converted to WebP. Industry and page photography are the same Unsplash/Pexels frames the old site used, optimised locally (no hotlinking).
+Team headshots are the client's own (from the old site), cropped 4:5 top-anchored and converted to WebP. Industry and page photography are the same Unsplash/Pexels frames the old site used, optimised locally (no hotlinking); the eleven industries added in October 2026 use Unsplash photos listed in [`assets-src/industries/SOURCES.md`](assets-src/industries/SOURCES.md).
 
 ## Responsive QA
 

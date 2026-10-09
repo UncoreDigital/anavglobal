@@ -11,7 +11,8 @@ import FaqSection from "@/components/sections/FaqSection";
 import ServicesGrid from "@/components/sections/ServicesGrid";
 import SectionHeading from "@/components/SectionHeading";
 import { Button } from "@/components/ui/Button";
-import { software } from "@/lib/content";
+import { ToolArt } from "@/components/sections/Software";
+import { allSoftware } from "@/lib/content";
 import { getIcon } from "@/lib/icons";
 import { getRegionService, regionContent } from "@/lib/region-content";
 import { regions, rhref, type Region } from "@/lib/regions";
@@ -41,7 +42,9 @@ export default async function ServiceDetailPage({ region, slug }: { region: Regi
   const content = regionContent[region];
   const contact = contactFrom(await getSettings(), region);
   const Icon = getIcon(service.icon);
-  const tools = software.filter((t) => service.tools.includes(t.name));
+  const tools = service.tools
+    .map((name) => allSoftware.find((t) => t.name === name))
+    .filter((t): t is NonNullable<typeof t> => Boolean(t));
   const r = (path: string) => rhref(region, path);
   const quoteHref = r(`/contact?service=${encodeURIComponent(service.title)}`);
 
@@ -109,6 +112,25 @@ export default async function ServiceDetailPage({ region, slug }: { region: Regi
               )}
             </Reveal>
 
+            {service.returns && service.returns.length > 0 && (
+              <Reveal className="mt-10">
+                <h3 className="text-[12px] font-bold uppercase tracking-[0.16em] text-brand">Returns we prepare &amp; file</h3>
+                <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+                  {service.returns.map((item) => (
+                    <li key={item.form} className="flex gap-4 rounded-xl border border-border bg-white p-4 sm:p-5">
+                      <span className="flex h-11 w-[4.5rem] shrink-0 items-center justify-center rounded-lg bg-navy-deep font-display text-[13px] font-extrabold text-accent-light">
+                        {item.form}
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block text-[15px] font-bold leading-snug text-navy-deep">{item.title}</span>
+                        <span className="mt-1.5 block text-[13.5px] leading-[1.65] text-ink-muted">{item.detail}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            )}
+
             {service.process && service.process.length > 0 && (
               <Reveal className="mt-10">
                 <h3 className="text-[12px] font-bold uppercase tracking-[0.16em] text-brand">Our process</h3>
@@ -150,11 +172,7 @@ export default async function ServiceDetailPage({ region, slug }: { region: Regi
                 <ul className="mt-5 flex flex-wrap gap-3">
                   {tools.map((tool) => (
                     <li key={tool.name} className="flex h-14 items-center justify-center rounded-xl border border-border bg-white px-5">
-                      {tool.logo ? (
-                        <Image src={tool.logo} alt={tool.name} width={220} height={80} className="h-7 w-auto max-w-[7rem] object-contain" />
-                      ) : (
-                        <span className="font-display text-[15px] font-bold text-navy-deep/75">{tool.name}</span>
-                      )}
+                      <ToolArt tool={tool} small />
                     </li>
                   ))}
                 </ul>

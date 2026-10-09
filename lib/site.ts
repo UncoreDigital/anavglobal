@@ -19,7 +19,7 @@ export const site = {
   legalName: "ANAV Global",
 
   /** The line under the wordmark in the old site's header. */
-  tagline: "Accounting Excellence",
+  tagline: "Accounting & Tax Excellence",
 
   /** The old hero, verbatim: "Next-Gen Accounting For CPAs & Business Owners". */
   proposition: "Next-Gen Accounting for CPAs & Business Owners",
@@ -58,7 +58,7 @@ export const site = {
 
   hours: {
     weekdays: "9:00 AM – 6:00 PM",
-    saturday: "10:00 AM – 2:00 PM",
+    saturday: "Closed",
     sunday: "Closed",
   },
 
@@ -221,7 +221,14 @@ export function footerNavFor(region: Region) {
       heading: region === "uk" ? "UK Services" : "Services",
       links: content.services.map((s) => ({ name: s.title, href: r(`/services/${s.slug}`) })),
     },
-    { heading: "Industries", links: content.industries.map((i) => ({ name: i.name, href: r(`/industries/${i.slug}`) })) },
+    /* The US site has more industries than a footer column holds; list the first eight and link the rest. */
+    {
+      heading: "Industries",
+      links: [
+        ...content.industries.slice(0, 8).map((i) => ({ name: i.name, href: r(`/industries/${i.slug}`) })),
+        ...(content.industries.length > 8 ? [{ name: "All industries", href: r("/industries") }] : []),
+      ],
+    },
     {
       heading: "Company",
       links: [

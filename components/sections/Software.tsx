@@ -6,9 +6,11 @@ import { cn } from "@/lib/utils";
 /**
  * "Tools and Applications" — the platforms the team works in.
  *
- * Tiles carry the vendor logo where one exists locally and the product name set
- * as a wordmark where it does not (Expensify). Every tile is the same size and
- * plate, so the row still reads as one set.
+ * Tiles carry the vendor logo where one exists locally, the parent brand's
+ * symbol beside the product name where the product has no logo of its own
+ * (CCH Axcess, UltraTax CS), and the name set as a wordmark otherwise
+ * (Expensify, Taxfiler). Every tile is the same size and plate, so the row
+ * still reads as one set.
  *
  * `strip` is the slim marquee under the hero; `grid` is the static set used on
  * interior pages, where a moving row would compete with the copy.
@@ -22,11 +24,30 @@ function Tool({ tool, className }: { tool: SoftwareTool; className?: string }) {
         className
       )}
     >
-      {tool.logo ? (
-        <Image src={tool.logo} alt={tool.name} width={220} height={80} className="h-8 w-auto max-w-[7.5rem] object-contain" />
-      ) : (
-        <span className="whitespace-nowrap font-display text-[16px] font-bold text-navy-deep/75">{tool.name}</span>
+      <ToolArt tool={tool} />
+    </span>
+  );
+}
+
+/** The art inside a tile — shared with the "Platforms we work in" list on service pages. */
+export function ToolArt({ tool, small = false }: { tool: SoftwareTool; small?: boolean }) {
+  if (tool.logo) {
+    return (
+      <Image
+        src={tool.logo}
+        alt={tool.name}
+        width={220}
+        height={80}
+        className={cn("w-auto object-contain", small ? "h-7 max-w-[9rem]" : "h-8 max-w-[10rem]")}
+      />
+    );
+  }
+  return (
+    <span className="flex items-center gap-2 whitespace-nowrap">
+      {tool.mark && (
+        <Image src={tool.mark} alt="" width={96} height={96} className={cn("w-auto shrink-0", small ? "h-6" : "h-7")} />
       )}
+      <span className={cn("font-display font-bold text-navy-deep/75", small ? "text-[15px]" : "text-[16px]")}>{tool.name}</span>
     </span>
   );
 }

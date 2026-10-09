@@ -96,6 +96,8 @@ export default function Header({ phone, email, region }: { phone?: string; email
             {navItems.map((item) => {
               const active = isActive(item);
               const open = openDropdown === item.name;
+              /* Long lists (the US site's industries) drop the blurbs and go three across so the panel fits a laptop screen. */
+              const dense = (item.dropdown?.length ?? 0) > 8;
 
               if (!item.dropdown) {
                 return (
@@ -144,25 +146,36 @@ export default function Header({ phone, email, region }: { phone?: string; email
 
                   <AnimatePresence>
                     {open && (
+                      /*
+                        Centred under its trigger. The -50% shift lives in the
+                        motion values, not a Tailwind translate class: motion
+                        writes its own transform, which silently dropped the
+                        class and left every panel starting at its trigger's
+                        midpoint — harmless for narrow menus, but the wide
+                        industries panel ran off a 1024px screen.
+                      */
                       <motion.div
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 4 }}
+                        initial={{ opacity: 0, y: 8, x: "-50%" }}
+                        animate={{ opacity: 1, y: 0, x: "-50%" }}
+                        exit={{ opacity: 0, y: 4, x: "-50%" }}
                         transition={{ duration: 0.18, ease: EASE }}
                         onMouseEnter={cancelClose}
                         onMouseLeave={scheduleClose}
                         className={cn(
-                          "absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3",
-                          item.dropdown.length > 4 ? "w-[34rem]" : "w-[24rem]"
+                          "absolute left-1/2 top-full z-50 pt-3",
+                          dense ? "w-[46rem]" : item.dropdown.length > 4 ? "w-[34rem]" : "w-[24rem]"
                         )}
                       >
                         <div className="overflow-hidden rounded-2xl border border-border bg-white p-2 shadow-lift">
-                          <div className={cn("grid gap-0.5", item.dropdown.length > 4 && "grid-cols-2")}>
+                          <div className={cn("grid gap-0.5", dense ? "grid-cols-3" : item.dropdown.length > 4 && "grid-cols-2")}>
                             {item.dropdown.map((sub) => (
                               <Link
                                 key={sub.href}
                                 href={sub.href}
-                                className="group relative block rounded-xl px-3.5 py-3 transition-colors hover:bg-mint-light"
+                                className={cn(
+                                  "group relative block rounded-xl px-3.5 transition-colors hover:bg-mint-light",
+                                  dense ? "py-2.5" : "py-3"
+                                )}
                               >
                                 <span className="flex items-center justify-between gap-3">
                                   <span className="text-[14px] font-semibold text-navy-deep transition-colors group-hover:text-brand">
@@ -173,7 +186,7 @@ export default function Header({ phone, email, region }: { phone?: string; email
                                     aria-hidden="true"
                                   />
                                 </span>
-                                {sub.blurb && (
+                                {sub.blurb && !dense && (
                                   <span className="mt-0.5 block text-[12.5px] leading-snug text-ink-muted">
                                     {sub.blurb}
                                   </span>

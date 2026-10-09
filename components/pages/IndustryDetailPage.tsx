@@ -22,12 +22,14 @@ export function industrySlugsFor(region: Region) {
 export function industryMetadata(region: Region, slug: string) {
   const industry = getRegionIndustry(region, slug);
   if (!industry) return {};
-  /* Every industry exists on both sites; CPA firms ↔ accounting practices differ in slug. */
+  /* Six industries are on both sites (CPA firms ↔ accounting practices differ in slug); the rest are US-only. */
   const other: Region = region === "us" ? "uk" : "us";
+  const counterpart = industryCounterpart(industry.slug, region);
   return pageMetadata(region, `/industries/${industry.slug}`, {
     title: industry.metaTitle ?? `Accounting for ${industry.name}`,
     description: `${industry.description}. ${industry.intro}`,
-    paths: { [other]: `/industries/${industryCounterpart(industry.slug, region)}` },
+    availableIn: counterpart ? [region, other] : [region],
+    paths: counterpart ? { [other]: `/industries/${counterpart}` } : {},
   });
 }
 
@@ -152,7 +154,7 @@ export default async function IndustryDetailPage({ region, slug }: { region: Reg
         <div className="container">
           <SectionHeading eyebrow="Other industries" title="More industries" accent="we serve" />
         </div>
-        <IndustriesGrid region={region} heading={false} exclude={industry.slug} className="mt-12" />
+        <IndustriesGrid region={region} heading={false} exclude={industry.slug} limit={6} className="mt-12" />
       </section>
 
       <CTA contact={contact} />

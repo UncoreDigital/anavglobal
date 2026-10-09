@@ -107,8 +107,12 @@ export default function Hero({ clients, satisfaction, region }: { clients: strin
                 <Zap className="h-4 w-4" />
               </span>
               <span>
-                <span className="block text-[13px] font-bold text-white">24-hour turnaround</span>
-                <span className="block text-[11px] text-white/55">on routine tasks</span>
+                <span className="block text-[13px] font-bold text-white">
+                  {region === "uk" ? "5 working days turnaround" : "24-hour turnaround"}
+                </span>
+                <span className="block text-[11px] text-white/55">
+                  {region === "uk" ? "once we have everything" : "on routine tasks"}
+                </span>
               </span>
             </div>
 

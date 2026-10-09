@@ -15,6 +15,10 @@ import { offices } from "@/lib/site";
  * the delivery centre in India, work sent at the end of a US or UK day is
  * worked on overnight and back by the next morning, which is how the old
  * site's "24-hour turnaround" is possible at all.
+ *
+ * The UK site promises five working days from the last piece of information
+ * instead (client change list, October 2026), so it does not repeat the
+ * overnight claim either.
  */
 export default function GlobalPresence({ region = "us" }: { region?: Region }) {
   /* The current country's office leads. */
@@ -31,8 +35,9 @@ export default function GlobalPresence({ region = "us" }: { region?: Region }) {
               <span className="text-gradient-brand sm:block">One team, around the clock.</span>
             </h2>
             <p className="mt-5 text-[15.5px] leading-[1.75] text-ink-muted">
-              With offices in the USA, the UK and India, your work keeps moving after your day ends. Send it in the
-              evening; it is reconciled, prepared and waiting for review by the time your office opens.
+              {region === "uk"
+                ? "With offices in the UK, the USA and India, your work keeps moving after your day ends — our team in India picks it up while the UK is offline."
+                : "With offices in the USA, the UK and India, your work keeps moving after your day ends. Send it in the evening; it is reconciled, prepared and waiting for review by the time your office opens."}
             </p>
             <div className="mt-8 flex items-center gap-3 rounded-2xl border border-border bg-white p-5 shadow-soft">
               <span className="relative flex h-2.5 w-2.5 shrink-0">
@@ -40,8 +45,17 @@ export default function GlobalPresence({ region = "us" }: { region?: Region }) {
                 <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-accent" />
               </span>
               <p className="text-[14px] text-navy-deep">
-                <strong className="font-semibold">24-hour turnaround</strong>{" "}
-                <span className="text-ink-muted">on routine tasks, across every time zone we serve.</span>
+                {region === "uk" ? (
+                  <>
+                    <strong className="font-semibold">5 working days turnaround</strong>{" "}
+                    <span className="text-ink-muted">once we receive the last piece of information.</span>
+                  </>
+                ) : (
+                  <>
+                    <strong className="font-semibold">24-hour turnaround</strong>{" "}
+                    <span className="text-ink-muted">on routine tasks, across every time zone we serve.</span>
+                  </>
+                )}
               </p>
             </div>
           </Reveal>

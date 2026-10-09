@@ -4,11 +4,20 @@ import Reveal, { RevealGroup, RevealItem } from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import Stats from "@/components/sections/Stats";
 import { whyUs } from "@/lib/content";
+import type { Region } from "@/lib/regions";
 import { getIcon } from "@/lib/icons";
 import type { Settings } from "@/lib/settings";
 
 /** "Why Choose Us" — VERBATIM copy, with the headline figures beneath. */
-export default function WhyUs({ settings }: { settings: Settings }) {
+/* The UK site promises five working days rather than 24 hours (client change list, October 2026). */
+const ukTurnaround = {
+  title: "Fast Turnaround",
+  body: "5 working days turnaround once we receive the last piece of information, so your records are never left waiting",
+  icon: "Zap",
+};
+
+export default function WhyUs({ settings, region = "us" }: { settings: Settings; region?: Region }) {
+  const items = region === "uk" ? whyUs.items.map((item) => (item.title === "Fast Turnaround" ? ukTurnaround : item)) : whyUs.items;
   return (
     <section className="section relative overflow-hidden bg-white">
       <div className="container">
@@ -40,7 +49,7 @@ export default function WhyUs({ settings }: { settings: Settings }) {
           <div>
             <SectionHeading eyebrow={whyUs.eyebrow} title={whyUs.title} accent={whyUs.accent} lead={whyUs.lead} />
             <RevealGroup className="mt-10 grid gap-x-8 gap-y-7 sm:grid-cols-2">
-              {whyUs.items.map((item) => {
+              {items.map((item) => {
                 const Icon = getIcon(item.icon);
                 return (
                   <RevealItem key={item.title} className="flex gap-4">

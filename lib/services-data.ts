@@ -32,6 +32,8 @@ export type Service = {
   process?: string[];
   /** One-line promise shown under "What's included". */
   tagline?: string;
+  /** Tax forms prepared and filed, with what each covers (US tax service — client change list, October 2026). */
+  returns?: { form: string; title: string; detail: string }[];
 };
 
 export const services: Service[] = [
@@ -139,7 +141,63 @@ export const services: Service[] = [
         "Know your tax position before the deadline, not after it. We prepare and file your returns and plan ahead so there are no surprises.",
     },
     outcomes: ["Review-ready returns", "Deductions captured", "Deadlines met"],
-    tools: ["QuickBooks", "Xero", "Sage"],
+    tools: ["Drake", "CCH Axcess", "Lacerte", "ProConnect", "TurboTax", "UltraTax CS"],
+    returns: [
+      {
+        form: "1040",
+        title: "Individual tax return preparation & filing",
+        detail:
+          "U.S. Individual Income Tax Return, with the schedules behind it — wages and 1099 income, self-employment (Schedule C), investments (Schedule D), rental income (Schedule E), itemized deductions and credits.",
+      },
+      {
+        form: "1065",
+        title: "Partnership tax return preparation & filing",
+        detail:
+          "U.S. Return of Partnership Income for partnerships and multi-member LLCs, including a Schedule K-1 for every partner and the capital account reconciliation behind it.",
+      },
+      {
+        form: "1120-S",
+        title: "S corporation tax return preparation & filing",
+        detail:
+          "U.S. Income Tax Return for an S Corporation, with shareholder K-1s, and a check that owner salaries and distributions are recorded correctly.",
+      },
+      {
+        form: "1120",
+        title: "C corporation tax return preparation & filing",
+        detail:
+          "U.S. Corporation Income Tax Return, including the book-to-tax reconciliation, depreciation schedules and estimated payments for the year ahead.",
+      },
+      {
+        form: "1041",
+        title: "Estate & trust income tax returns",
+        detail:
+          "U.S. Income Tax Return for Estates and Trusts — income and deductions at the fiduciary level, distributable net income, and K-1s for beneficiaries.",
+      },
+      {
+        form: "4868",
+        title: "Individual tax extension filing",
+        detail:
+          "An automatic six-month extension of time to file a Form 1040, filed by the April deadline — with an estimate of any tax due, because an extension to file is not an extension to pay.",
+      },
+      {
+        form: "7004",
+        title: "Business tax extension filing",
+        detail:
+          "Automatic extensions for partnership, S corporation, C corporation and trust returns, filed before each return's original due date.",
+      },
+      {
+        form: "1040-ES",
+        title: "Estimated tax calculation & payments",
+        detail:
+          "Quarterly estimated tax worked out for individuals and business owners, using the safe-harbor rules to avoid underpayment penalties, with payments scheduled ahead of each due date.",
+      },
+      {
+        form: "State",
+        title: "State tax return preparation & filing — all states",
+        detail:
+          "Individual, partnership and corporate returns in every state, including multi-state apportionment, composite returns and nonresident filings.",
+      },
+    ],
     faqs: [
       {
         q: "Do you prepare returns for CPA firms on their own software?",

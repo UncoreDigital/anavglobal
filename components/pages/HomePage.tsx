@@ -48,10 +48,10 @@ export default async function HomePage({ region }: { region: Region }) {
       <Software tools={content.software} />
       <Audiences region={region} />
       <ServicesGrid region={region} />
-      <WhyUs settings={settings} />
+      <WhyUs settings={settings} region={region} />
       <Process />
       <EngagementModels region={region} />
-      <IndustriesGrid region={region} />
+      <IndustriesGrid region={region} limit={6} />
       <GlobalPresence region={region} />
       <TeamSection members={team} variant="teaser" className="bg-white" teamHref={rhref(region, "/team")} />
       <Testimonials items={testimonials} />

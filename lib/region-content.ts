@@ -7,6 +7,8 @@ import {
   hero as usHero,
   serviceInterests as usServiceInterests,
   software,
+  taxSoftware,
+  ukTaxSoftware,
   type SoftwareTool,
 } from "@/lib/content";
 import { industries as usIndustries, type Industry } from "@/lib/industries-data";
@@ -115,7 +117,7 @@ const us: RegionContent = {
   },
   faqs: usFaqs,
   cta: usCta,
-  software,
+  software: [...software, ...taxSoftware],
   forWho: {
     cpa: { label: "For CPA & accounting firms", href: "/industries/cpa-firms" },
     business: { label: "For business owners", href: "/industries/startups-smes" },
@@ -271,7 +273,7 @@ const uk: RegionContent = {
     body: "Talk to ANAV Global about bookkeeping, VAT, year-end and self-assessment support for your practice or business.",
     cta: { label: "Book a Free Consultation", href: "/contact" },
   },
-  software: software.filter((t) => ["Xero", "QuickBooks", "Sage"].includes(t.name)),
+  software: [...software.filter((t) => ["Xero", "QuickBooks", "Sage"].includes(t.name)), ...ukTaxSoftware],
   forWho: {
     cpa: { label: "For UK accounting practices", href: "/industries/accounting-practices" },
     business: { label: "For business owners", href: "/industries/startups-smes" },

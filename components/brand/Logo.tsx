@@ -26,18 +26,24 @@ import { cn } from "@/lib/utils";
   header lockup plus the menu button needs ~335px, which pushed a 320px screen
   into horizontal scroll and clipped the footer tagline (responsive audit,
   October 2026). From 640px up the sizes are unchanged.
+
+  The tagline grew from "Accounting Excellence" to "Accounting & Tax
+  Excellence" (client change list, October 2026) — six more letters — so its
+  letter-spacing is tighter than before. That keeps it within about a quarter
+  of the wordmark's width, as the shorter tagline was, and keeps the 320px
+  header clear of the menu button.
 */
 const SIZES = {
-  sm: { mark: "h-8", word: "h-[13px]", tag: "text-[8.5px] tracking-[0.2em]" },
+  sm: { mark: "h-8", word: "h-[13px]", tag: "text-[7.5px] tracking-[0.12em]" },
   md: {
     mark: "h-9 sm:h-10",
     word: "h-[14px] sm:h-[16px]",
-    tag: "text-[8.5px] tracking-[0.2em] sm:text-[9.5px] sm:tracking-[0.235em]",
+    tag: "text-[8px] tracking-[0.12em] sm:text-[9px] sm:tracking-[0.16em]",
   },
   lg: {
     mark: "h-11 sm:h-14",
     word: "h-[17px] sm:h-[22px]",
-    tag: "text-[9.5px] tracking-[0.2em] sm:text-[11.5px] sm:tracking-[0.235em]",
+    tag: "text-[9px] tracking-[0.16em] sm:text-[11px] sm:tracking-[0.18em]",
   },
 } as const;
 

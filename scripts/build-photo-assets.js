@@ -55,6 +55,8 @@ async function photos() {
   fs.mkdirSync(out, { recursive: true });
 
   for (const file of fs.readdirSync(dir)) {
+    /* Photos only — the folder also holds SOURCES.md. */
+    if (!/\.(png|jpe?g)$/i.test(file)) continue;
     const slug = file.replace(/\.(png|jpe?g)$/i, "");
     const dest = path.join(out, `${slug}.webp`);
     await sharp(path.join(dir, file))

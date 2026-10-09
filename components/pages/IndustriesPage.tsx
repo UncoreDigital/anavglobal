@@ -35,7 +35,7 @@ export default async function IndustriesPage({ region }: { region: Region }) {
         lead="Industry-specific accounting expertise tailored to your unique business needs"
         breadcrumbs={[{ name: "Industries" }]}
         homeHref={rhref(region, "/")}
-        chips={industries.map((i) => i.name)}
+        chips={industries.length <= 8 ? industries.map((i) => i.name) : undefined}
       />
 
       <IndustriesGrid region={region} heading={false} className="section bg-white" />

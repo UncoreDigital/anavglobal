@@ -25,15 +25,19 @@ export const TEAM_FALLBACK: Seed[] = [
     tier: "leadership",
     sort_order: 1,
   }),
-  seed({
-    name: "Niket Bhatt",
-    role: "Founder & Managing Director",
-    bio: "Building strong, lasting relationships with clients through trust, open communication, and bespoke advice that aligns with your vision.",
-    photo_url: "/assets/team/niket-bhatt.webp",
-    credentials: ["Client Relations", "Advisory"],
-    tier: "leadership",
-    sort_order: 2,
-  }),
+  {
+    ...seed({
+      name: "Niket Bhatt",
+      role: "Founder & Managing Director",
+      bio: "Building strong, lasting relationships with clients through trust, open communication, and bespoke advice that aligns with your vision.",
+      photo_url: "/assets/team/niket-bhatt.webp",
+      credentials: ["Client Relations", "Advisory"],
+      tier: "leadership",
+      sort_order: 2,
+    }),
+    /* Public profile, matched by name and company. The others are to come from the client — see 0005. */
+    linkedin_url: "https://www.linkedin.com/in/niket-bhatt-82621612a/",
+  },
   seed({
     name: "Vandana Patel",
     role: "Chief Executive Officer (CEO)",

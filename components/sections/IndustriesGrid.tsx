@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { RevealGroup, RevealItem } from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
+import { Button } from "@/components/ui/Button";
 import { getIcon } from "@/lib/icons";
 import { regionContent } from "@/lib/region-content";
 import { rhref, type Region } from "@/lib/regions";
@@ -12,15 +13,19 @@ export default function IndustriesGrid({
   region,
   heading = true,
   exclude,
+  limit,
   className = "section bg-white",
 }: {
   region: Region;
   heading?: boolean;
   exclude?: string;
+  /** Show this many cards and a link to the full list (homepage, "more industries"). */
+  limit?: number;
   className?: string;
 }) {
   const { industries } = regionContent[region];
-  const list = exclude ? industries.filter((i) => i.slug !== exclude) : industries;
+  const all = exclude ? industries.filter((i) => i.slug !== exclude) : industries;
+  const list = limit ? all.slice(0, limit) : all;
 
   return (
     <section className={className}>
@@ -71,6 +76,15 @@ export default function IndustriesGrid({
             );
           })}
         </RevealGroup>
+
+        {list.length < all.length && (
+          <div className="mt-10 flex justify-center">
+            <Button href={rhref(region, "/industries")} variant="outline" size="lg">
+              View all {industries.length} industries
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   );

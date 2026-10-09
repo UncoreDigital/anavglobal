@@ -153,7 +153,7 @@ insert into public.site_settings (key, value, label, group_name, sort_order) val
   ('whatsapp_primary',   '+91 97246 12506',            'WhatsApp (India) — primary',      'contact', 4),
   ('whatsapp_secondary', '+91 99097 04060',            'WhatsApp (India) — secondary',    'contact', 5),
   ('hours_weekdays',     '9:00 AM – 6:00 PM',          'Office hours — Monday to Friday', 'contact', 6),
-  ('hours_saturday',     '10:00 AM – 2:00 PM',         'Office hours — Saturday',         'contact', 7),
+  ('hours_saturday',     'Closed',                     'Office hours — Saturday',         'contact', 7),
   ('hours_sunday',       'Closed',                     'Office hours — Sunday',           'contact', 8),
   ('linkedin',           null,                         'LinkedIn page',                   'social',  1),
   ('facebook',           null,                         'Facebook page',                   'social',  2),

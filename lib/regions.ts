@@ -111,16 +111,22 @@ const SERVICE_EQUIVALENTS: Record<string, string> = {
 };
 
 /**
- * Industries are the same six on both sites, under the same slugs, except the
- * CPA-firms page, which the UK site calls accounting practices.
+ * Six industries are on both sites, under the same slugs, except the CPA-firms
+ * page, which the UK site calls accounting practices. The US site has more
+ * (hotels, cannabis, law firms…) with no UK page. Kept as a short list here,
+ * rather than read from the data files, because the country switcher runs in
+ * the browser and should not ship every industry's copy to do it.
  */
+const SHARED_INDUSTRIES = ["startups-smes", "cpa-firms", "e-commerce", "restaurants-hospitality", "professional-services", "real-estate"];
+
 const INDUSTRY_EQUIVALENTS: Record<string, string> = {
   "us:cpa-firms": "accounting-practices",
   "uk:accounting-practices": "cpa-firms",
 };
 
-/** The slug of an industry page's counterpart on the other site. */
-export function industryCounterpart(slug: string, from: Region): string {
+/** The slug of an industry page's counterpart on the other site, or null when it has none. */
+export function industryCounterpart(slug: string, from: Region): string | null {
+  if (from === "us" && !SHARED_INDUSTRIES.includes(slug)) return null;
   return INDUSTRY_EQUIVALENTS[`${from}:${slug}`] ?? slug;
 }
 
@@ -141,7 +147,10 @@ export function switchHref(pathname: string, target: Region): string {
   if (base.startsWith("/blog/")) return rhref(target, "/blog");
 
   const industry = base.match(/^\/industries\/([^/]+)$/);
-  if (industry) return rhref(target, `/industries/${industryCounterpart(industry[1], from)}`);
+  if (industry) {
+    const counterpart = industryCounterpart(industry[1], from);
+    return rhref(target, counterpart ? `/industries/${counterpart}` : "/industries");
+  }
 
   return rhref(target, "/");
 }

@@ -57,20 +57,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.85,
       });
     }
-    /* Every industry exists on both sites; only CPA firms ↔ accounting practices changes slug. */
+    /* Six industries are on both sites (CPA firms ↔ accounting practices changes slug); the rest are US-only. */
     const other: Region = region === "us" ? "uk" : "us";
     for (const { slug } of regionContent[region].industries) {
+      const counterpart = industryCounterpart(slug, region);
       routes.push({
         url: abs(rhref(region, `/industries/${slug}`)),
         lastModified: now,
         changeFrequency: "monthly",
         priority: 0.75,
-        alternates: {
-          languages: {
-            [regions[region].hreflang]: abs(rhref(region, `/industries/${slug}`)),
-            [regions[other].hreflang]: abs(rhref(other, `/industries/${industryCounterpart(slug, region)}`)),
-          },
-        },
+        ...(counterpart
+          ? {
+              alternates: {
+                languages: {
+                  [regions[region].hreflang]: abs(rhref(region, `/industries/${slug}`)),
+                  [regions[other].hreflang]: abs(rhref(other, `/industries/${counterpart}`)),
+                },
+              },
+            }
+          : {}),
       });
     }
   }

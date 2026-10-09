@@ -616,3 +616,18 @@ The UK site gained the Industries section: `/uk/industries` and six UK industry 
 | 12 routes (UK home, UK industries index + 6 pages, a UK service page, UK about, US CPA firms) × 17 viewports = 204 runs | **0** page overflow, **0** clipped text, **0** distorted/broken images, **0** header collisions, **0** console errors; remaining spill/target notes identical to the earlier accepted baseline |
 | UK header dropdown (1440) and mobile menu (390) | all six UK industries listed, links stay on the UK site, no horizontal overflow in the menu |
 | Country switch and SEO | CPA firms ↔ accounting practices both ways; every industry page declares its counterpart via hreflang; both sites' industries in the sitemap; wrong-site slugs 404 |
+
+# ADDENDUM — CLIENT CHANGE LIST (10 October 2026)
+
+The client's change list added 11 US industry pages (17 in all), a longer logo tagline ("Accounting & Tax Excellence"), tax-software logos, a tax-forms section on the US tax service page, UK turnaround wording and LinkedIn buttons on team cards. Re-verified against the dev server, after a clean production build of all 71 pages:
+
+| Check | Result |
+|---|---|
+| 18 routes (US and UK home, industries index + the 11 new pages, US tax service page, UK How We Work, team, contact) × 17 viewports = 306 runs | **0** page overflow, **0** clipped text, **0** distorted/broken images, **0** header collisions, **0** console errors; no spill or target notes beyond the earlier accepted baseline |
+| Header lockup with the longer tagline | fits at 320 px with no horizontal scroll (tagline letter-spacing tightened: 160 px at 320, 190 px from 640 up) |
+| Industries menu, 17 items | compact three-column panel; fits a 1024 × 768 screen |
+
+Found and fixed while verifying:
+
+- **Desktop dropdowns were never centred under their trigger.** The panel's `-translate-x-1/2` class was overridden by the transform framer-motion writes, so every panel started at its trigger's midpoint. Narrow menus still fitted; the 17-item industries panel ran 200 px off a 1024 px screen. The shift now lives in the motion values (`x: "-50%"`).
+- **The longer tagline overflowed the 320 px header by 13 px** before its spacing was tightened.
