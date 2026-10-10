@@ -3,7 +3,7 @@ import { rhref, type Region } from "@/lib/regions";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import DOMPurify from "isomorphic-dompurify";
+import sanitizeHtml from "sanitize-html";
 import { ArrowLeft, CalendarDays, Clock, User } from "lucide-react";
 import JsonLd from "@/components/JsonLd";
 import PostCard from "@/components/PostCard";
@@ -63,10 +63,31 @@ export default async function BlogPostPage({ region, slug }: { region: Region; s
     Post bodies are HTML from the admin editor. They are sanitised at render
     rather than only on save: a body written directly into the table must not
     be able to inject script into a visitor's page.
+
+    sanitize-html, not DOMPurify: DOMPurify needs a DOM, which on the server
+    means jsdom, and jsdom crashed Vercel's serverless function for every post
+    rendered on demand (each newly published post returned a 500) while the
+    same code ran fine locally. sanitize-html is plain JavaScript with nothing
+    environment-specific to load. The allow-list matches what the TipTap editor
+    produces: StarterKit blocks and marks, underline, links, images and text
+    alignment.
   */
-  const clean = DOMPurify.sanitize(post.content, {
-    USE_PROFILES: { html: true },
-    ADD_ATTR: ["target", "rel"],
+  const clean = sanitizeHtml(post.content, {
+    allowedTags: [...sanitizeHtml.defaults.allowedTags, "img"],
+    allowedAttributes: {
+      a: ["href", "name", "target", "rel"],
+      img: ["src", "alt", "title", "width", "height", "loading", "class"],
+      "*": ["style"],
+    },
+    allowedStyles: { "*": { "text-align": [/^(left|right|center|justify)$/] } },
+    allowedSchemes: ["http", "https", "mailto", "tel"],
+    allowedSchemesByTag: { img: ["http", "https"] },
+    transformTags: {
+      a: (tagName, attribs) => ({
+        tagName,
+        attribs: attribs.target === "_blank" ? { ...attribs, rel: "noopener noreferrer" } : attribs,
+      }),
+    },
   });
 
   return (
