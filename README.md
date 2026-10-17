@@ -44,6 +44,7 @@ The site runs without Supabase: the contact form returns a "not configured" mess
    - [`0004_regions.sql`](supabase/migrations/0004_regions.sql) — US / UK country sites: lead site, post "Show on", UK phone setting. The site works before this is run (forms retry without the column; posts show on both sites), so it can go in later.
    - [`0005_client_changes.sql`](supabase/migrations/0005_client_changes.sql) — client change list (October 2026): Saturday office hours → Closed, Niket Bhatt's LinkedIn link. Never overwrites a value already edited in the admin.
    - [`0006_seed_blog_tax.sql`](supabase/migrations/0006_seed_blog_tax.sql), [`0007_seed_blog_business.sql`](supabase/migrations/0007_seed_blog_business.sql), [`0008_seed_blog_bookkeeping.sql`](supabase/migrations/0008_seed_blog_bookkeeping.sql) — the client's 44 blog articles (U.S. tax for CPA firms and individuals, small business tax, tax planning, bookkeeping, industries), as **drafts** on the U.S. site. 0008's header has a one-statement "publish all" for after review.
+   - [`0009_team_linkedin.sql`](supabase/migrations/0009_team_linkedin.sql) — team LinkedIn links supplied by the client (six of seven; Darshan Thakkar's to follow).
 3. **Authentication → Users → Add user** for each admin. There is no public sign-up.
 4. Sign in at `/admin/login`.
 
@@ -130,7 +131,7 @@ Nav, footer, sitemap and pages all render from the data files, so a service cann
 8. **Claims kept from the old site** — "24/7 support", "decade+ of experience", "CPAs, EAs" on the team, "lower than hiring individual bookkeepers" — are the client's own and should be true.
 9. **UK site** — confirm ANAV offers all four UK services as described, review the UK wording of the six industry pages, confirm the UK engagement models and their "Each model includes" list (defined SLAs, weekly reporting, account manager — these mirror POS Accounts' page and must be true of ANAV), add a **UK phone number** in Admin → Site Settings, and confirm the team is happy adapting POS Accounts' service structure.
 10. **Vendor logos** (QuickBooks, Xero, Sage, Bill.com, ADP, Paychex, Gusto; tax software Drake, Lacerte, ProConnect, TurboTax, TaxCalc, BrightPay; the Wolters Kluwer and Thomson Reuters symbols beside CCH and UltraTax CS) are third-party trademarks, shown to identify software the team works in. Sources: `assets-src/software/`.
-11. **Client change list, October 2026** — tracked in the client's sheet (status copy in `client-changes/`, not committed). Still open: **LinkedIn links** for six team members (Admin → Team), the **USA tax FAQs** the client is sending (for the Tax Preparation & Filing page), and confirmation that WhatsApp support is still "24/7". To review before publishing: the **44 blog drafts**, the **11 new industry pages** and the **tax forms list** on the US tax service page.
+11. **Client change list, October 2026** — tracked in the client's sheet (status copy in `client-changes/`, not committed). Still open: the **LinkedIn link for Darshan Thakkar** (Admin → Team; the other six are in `0009_team_linkedin.sql`), the **USA tax FAQs** the client is sending (for the Tax Preparation & Filing page), and confirmation that WhatsApp support is still "24/7". To review before publishing: the **44 blog drafts**, the **11 new industry pages** and the **tax forms list** on the US tax service page.
 
 ---
 

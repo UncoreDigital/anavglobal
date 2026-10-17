@@ -13,7 +13,12 @@ import type { TeamMember } from "@/lib/supabase/types";
 
 type Seed = Omit<TeamMember, "id" | "created_at" | "updated_at">;
 
-const seed = (m: Omit<Seed, "published" | "linkedin_url">): Seed => ({ ...m, published: true, linkedin_url: null });
+/* LinkedIn links as supplied by the client (October 2026); see supabase/migrations/0009_team_linkedin.sql. */
+const seed = (m: Omit<Seed, "published" | "linkedin_url"> & { linkedin_url?: string }): Seed => ({
+  ...m,
+  published: true,
+  linkedin_url: m.linkedin_url ?? null,
+});
 
 export const TEAM_FALLBACK: Seed[] = [
   seed({
@@ -24,20 +29,18 @@ export const TEAM_FALLBACK: Seed[] = [
     credentials: ["QuickBooks ProAdvisor"],
     tier: "leadership",
     sort_order: 1,
+    linkedin_url: "https://www.linkedin.com/in/virang-p-patel-15508a66",
   }),
-  {
-    ...seed({
-      name: "Niket Bhatt",
-      role: "Founder & Managing Director",
-      bio: "Building strong, lasting relationships with clients through trust, open communication, and bespoke advice that aligns with your vision.",
-      photo_url: "/assets/team/niket-bhatt.webp",
-      credentials: ["Client Relations", "Advisory"],
-      tier: "leadership",
-      sort_order: 2,
-    }),
-    /* Public profile, matched by name and company. The others are to come from the client — see 0005. */
-    linkedin_url: "https://www.linkedin.com/in/niket-bhatt-82621612a/",
-  },
+  seed({
+    name: "Niket Bhatt",
+    role: "Founder & Managing Director",
+    bio: "Building strong, lasting relationships with clients through trust, open communication, and bespoke advice that aligns with your vision.",
+    photo_url: "/assets/team/niket-bhatt.webp",
+    credentials: ["Client Relations", "Advisory"],
+    tier: "leadership",
+    sort_order: 2,
+    linkedin_url: "https://www.linkedin.com/in/niket-bhatt-82621612a",
+  }),
   seed({
     name: "Vandana Patel",
     role: "Chief Executive Officer (CEO)",
@@ -46,6 +49,7 @@ export const TEAM_FALLBACK: Seed[] = [
     credentials: ["CA", "Tax Expert"],
     tier: "leadership",
     sort_order: 3,
+    linkedin_url: "https://www.linkedin.com/in/ca-vandana-patel-5b102636",
   }),
   seed({
     name: "Darshan Thakkar",
@@ -64,6 +68,7 @@ export const TEAM_FALLBACK: Seed[] = [
     credentials: ["Onboarding Expert"],
     tier: "management",
     sort_order: 5,
+    linkedin_url: "https://www.linkedin.com/in/raj-barot-13986b176",
   }),
   seed({
     name: "Meet Barot",
@@ -73,6 +78,7 @@ export const TEAM_FALLBACK: Seed[] = [
     credentials: ["EA", "Tax Specialist"],
     tier: "management",
     sort_order: 6,
+    linkedin_url: "https://www.linkedin.com/in/meet-barot-ea-license-awaiting-0ab0462bb",
   }),
   seed({
     name: "Kishan Thakor",
@@ -82,6 +88,7 @@ export const TEAM_FALLBACK: Seed[] = [
     credentials: ["Operations"],
     tier: "management",
     sort_order: 7,
+    linkedin_url: "https://www.linkedin.com/in/kishankumar-thakor-6a5105242",
   }),
 ];
 
