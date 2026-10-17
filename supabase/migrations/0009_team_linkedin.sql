@@ -4,8 +4,7 @@
 --
 -- Each team card shows a LinkedIn button once its link is set. These are the
 -- links the client sent; they replace whatever is stored for that person.
--- Still to come from the client: Darshan Thakkar (add it in Admin → Team →
--- Edit → "LinkedIn profile" when it arrives).
+-- (Darshan Thakkar has no link: he is removed from the site in 0010.)
 -- ============================================================================
 
 update public.team_members as t
@@ -21,5 +20,5 @@ from (values
 where t.name = v.name
   and t.linkedin_url is distinct from v.url;
 
--- Check: expect six rows with a link and Darshan Thakkar without one.
+-- Check: the six people above should each have a link.
 select name, linkedin_url from public.team_members order by sort_order;

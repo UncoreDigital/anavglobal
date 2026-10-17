@@ -1,3 +1,6 @@
+-- ⚠ DO NOT RUN — SUPERSEDED (October 2026). At the client's request the blog
+-- carries only articles the client supplies (0011); the articles below were
+-- removed from the database. Kept for reference only.
 -- ============================================================================
 -- ANAV Global — blog articles from the client's change list (October 2026)
 -- Part 1 of 3: U.S. tax for CPA firms (point 7) and for individuals (point 8).

@@ -68,7 +68,10 @@ export default function TeamSection({
             <h3 className="mt-20 text-center text-[13px] font-bold uppercase tracking-[0.18em] text-brand">
               Management Team
             </h3>
-            <RevealGroup className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Three managers fill a row of three rather than leave a gap in a row of four. */}
+            <RevealGroup
+              className={cn("mt-8 grid gap-5 sm:grid-cols-2", management.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4")}
+            >
               {management.map((m) => (
                 <RevealItem key={m.name}>
                   <PersonCard member={m} />

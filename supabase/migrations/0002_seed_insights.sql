@@ -1,3 +1,6 @@
+-- ⚠ DO NOT RUN — SUPERSEDED (October 2026). At the client's request the blog
+-- carries only articles the client supplies (0011); the articles below were
+-- removed from the database. Kept for reference only.
 -- ============================================================================
 -- ANAV Global — launch articles, seeded as DRAFTS
 -- Run after 0001_init.sql. Safe to re-run: existing slugs are left alone.

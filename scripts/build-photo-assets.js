@@ -23,8 +23,8 @@ const kb = (file) => `${Math.round(fs.statSync(file).size / 1024)} KB`;
 /*
   Headshots: 4:5, anchored near the top. Every supplied portrait is a standing
   head-and-torso shot with the face in the upper third, so a centred crop cuts
-  the top of the head off on the taller frames (Darshan is 9:16) while a
-  top-anchored one keeps head and shoulders on all seven.
+  the top of the head off on the taller frames (some are 9:16) while a
+  top-anchored one keeps head and shoulders on all of them.
 */
 async function team() {
   const dir = path.join(SRC, "team");

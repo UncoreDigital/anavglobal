@@ -5,7 +5,8 @@ import type { TeamMember } from "@/lib/supabase/types";
  * The team, read from Supabase `team_members` so the client can add, edit,
  * reorder and hide people from Admin → Team without a deploy.
  *
- * FALLBACK is the seven people the Emergent build published — names, roles,
+ * FALLBACK is the people the Emergent build published (less Darshan Thakkar,
+ * removed at the client's request in October 2026) — names, roles,
  * bios and credential tags verbatim, headshots optimised locally. It is what
  * renders before Supabase is configured, and it is also what
  * supabase/migrations/0001_init.sql seeds, so the two start identical.
@@ -50,15 +51,6 @@ export const TEAM_FALLBACK: Seed[] = [
     tier: "leadership",
     sort_order: 3,
     linkedin_url: "https://www.linkedin.com/in/ca-vandana-patel-5b102636",
-  }),
-  seed({
-    name: "Darshan Thakkar",
-    role: "Senior Manager – Direct Client",
-    bio: "Managing direct client relationships with expertise and dedication.",
-    photo_url: "/assets/team/darshan-thakkar.webp",
-    credentials: ["Client Management"],
-    tier: "management",
-    sort_order: 4,
   }),
   seed({
     name: "Raj Barot",

@@ -197,8 +197,10 @@ create trigger team_members_touch_updated_at
   before update on public.team_members
   for each row execute function public.touch_updated_at();
 
--- The seven people the Emergent build published, verbatim. Seeded only into an
--- empty table, so re-running this file never duplicates or resurrects anyone.
+-- The people the Emergent build published, verbatim — less Darshan Thakkar,
+-- removed at the client's request (October 2026; 0010 removes him from an
+-- existing database). Seeded only into an empty table, so re-running this file
+-- never duplicates or resurrects anyone.
 insert into public.team_members (name, role, bio, photo_url, credentials, tier, sort_order)
 select * from (values
   ('Virang P Patel', 'Founder & Managing Director',
@@ -210,9 +212,6 @@ select * from (values
   ('Vandana Patel', 'Chief Executive Officer (CEO)',
    'A seasoned Chartered Accountant with extensive industry experience, delivering reliable, transparent, and client-focused solutions.',
    '/assets/team/vandana-patel.webp', array['CA','Tax Expert'], 'leadership', 3),
-  ('Darshan Thakkar', 'Senior Manager – Direct Client',
-   'Managing direct client relationships with expertise and dedication.',
-   '/assets/team/darshan-thakkar.webp', array['Client Management'], 'management', 4),
   ('Raj Barot', 'Senior Manager – Onboarding & Transition',
    'Ensuring smooth onboarding and seamless transitions for all clients.',
    '/assets/team/raj-barot.webp', array['Onboarding Expert'], 'management', 5),

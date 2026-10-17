@@ -39,12 +39,14 @@ The site runs without Supabase: the contact form returns a "not configured" mess
 1. Create a Supabase project; copy the URL and anon key into `.env.local`.
 2. **SQL Editor → New query**, run in order:
    - [`0001_init.sql`](supabase/migrations/0001_init.sql) — tables, row-level security, storage bucket, seeds (settings, the seven team members, the five old testimonials **unpublished**)
-   - [`0002_seed_insights.sql`](supabase/migrations/0002_seed_insights.sql) — three articles as **drafts**
+   - ~~`0002_seed_insights.sql`~~ — **skip**: sample drafts, removed at the client's request (October 2026)
    - [`0003_lead_notification.sql`](supabase/migrations/0003_lead_notification.sql) — new-lead email (replace `<PROJECT_REF>` first; prerequisites are in the file header)
    - [`0004_regions.sql`](supabase/migrations/0004_regions.sql) — US / UK country sites: lead site, post "Show on", UK phone setting. The site works before this is run (forms retry without the column; posts show on both sites), so it can go in later.
    - [`0005_client_changes.sql`](supabase/migrations/0005_client_changes.sql) — client change list (October 2026): Saturday office hours → Closed, Niket Bhatt's LinkedIn link. Never overwrites a value already edited in the admin.
-   - [`0006_seed_blog_tax.sql`](supabase/migrations/0006_seed_blog_tax.sql), [`0007_seed_blog_business.sql`](supabase/migrations/0007_seed_blog_business.sql), [`0008_seed_blog_bookkeeping.sql`](supabase/migrations/0008_seed_blog_bookkeeping.sql) — the client's 44 blog articles (U.S. tax for CPA firms and individuals, small business tax, tax planning, bookkeeping, industries), as **drafts** on the U.S. site. 0008's header has a one-statement "publish all" for after review.
-   - [`0009_team_linkedin.sql`](supabase/migrations/0009_team_linkedin.sql) — team LinkedIn links supplied by the client (six of seven; Darshan Thakkar's to follow).
+   - ~~`0006`–`0008` (blog seeds)~~ — **skip**: 44 drafted articles the client chose not to use (October 2026); kept in the repo for reference only
+   - [`0009_team_linkedin.sql`](supabase/migrations/0009_team_linkedin.sql) — team LinkedIn links supplied by the client.
+   - [`0010_remove_darshan_thakkar.sql`](supabase/migrations/0010_remove_darshan_thakkar.sql) — removes Darshan Thakkar from the team page, at the client's request.
+   - [`0011_client_blog_posts.sql`](supabase/migrations/0011_client_blog_posts.sql) — the client's own articles (from their Word documents), published. The blog carries only articles the client supplies; add future ones in Admin → Insights or the same way.
 3. **Authentication → Users → Add user** for each admin. There is no public sign-up.
 4. Sign in at `/admin/login`.
 
@@ -131,7 +133,7 @@ Nav, footer, sitemap and pages all render from the data files, so a service cann
 8. **Claims kept from the old site** — "24/7 support", "decade+ of experience", "CPAs, EAs" on the team, "lower than hiring individual bookkeepers" — are the client's own and should be true.
 9. **UK site** — confirm ANAV offers all four UK services as described, review the UK wording of the six industry pages, confirm the UK engagement models and their "Each model includes" list (defined SLAs, weekly reporting, account manager — these mirror POS Accounts' page and must be true of ANAV), add a **UK phone number** in Admin → Site Settings, and confirm the team is happy adapting POS Accounts' service structure.
 10. **Vendor logos** (QuickBooks, Xero, Sage, Bill.com, ADP, Paychex, Gusto; tax software Drake, Lacerte, ProConnect, TurboTax, TaxCalc, BrightPay; the Wolters Kluwer and Thomson Reuters symbols beside CCH and UltraTax CS) are third-party trademarks, shown to identify software the team works in. Sources: `assets-src/software/`.
-11. **Client change list, October 2026** — tracked in the client's sheet (status copy in `client-changes/`, not committed). Still open: the **LinkedIn link for Darshan Thakkar** (Admin → Team; the other six are in `0009_team_linkedin.sql`), the **USA tax FAQs** the client is sending (for the Tax Preparation & Filing page), and confirmation that WhatsApp support is still "24/7". To review before publishing: the **44 blog drafts**, the **11 new industry pages** and the **tax forms list** on the US tax service page.
+11. **Client change list, October 2026** — tracked in the client's sheet (status copy in `client-changes/`, not committed). Still open: the **USA tax FAQs** the client is sending (for the Tax Preparation & Filing page), and confirmation that WhatsApp support is still "24/7". To review: the **11 new industry pages** and the **tax forms list** on the US tax service page.
 
 ---
 
